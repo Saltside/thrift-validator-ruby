@@ -7,3 +7,7 @@ $(THRIFT): test.thrift
 .PHONY: test
 test: $(THRIFT)
 	bundle exec rake test
+
+.PHONY:
+release:
+	bundle exec rake release
