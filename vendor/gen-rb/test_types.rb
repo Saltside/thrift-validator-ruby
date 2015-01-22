@@ -154,3 +154,32 @@ class MapValueExample
   ::Thrift::Struct.generate_accessors self
 end
 
+class UnionExample < ::Thrift::Union
+  include ::Thrift::Struct_Union
+  class << self
+    def primary(val)
+      UnionExample.new(:primary, val)
+    end
+
+    def alternate(val)
+      UnionExample.new(:alternate, val)
+    end
+  end
+
+  PRIMARY = 1
+  ALTERNATE = 2
+
+  FIELDS = {
+    PRIMARY => {:type => ::Thrift::Types::STRUCT, :name => 'primary', :class => ::SimpleStruct},
+    ALTERNATE => {:type => ::Thrift::Types::STRING, :name => 'alternate'}
+  }
+
+  def struct_fields; FIELDS; end
+
+  def validate
+    raise(StandardError, 'Union fields are not set.') if get_set_field.nil? || get_value.nil?
+  end
+
+  ::Thrift::Union.generate_accessors self
+end
+
