@@ -26,6 +26,12 @@ class AcceptanceTest < MiniTest::Unit::TestCase
     assert_valid struct
   end
 
+  def test_passes_if_nested_optional_struct_is_omitted
+    struct = NestedExample.new
+    struct.required_struct = SimpleStruct.new required_string: 'foo'
+    assert_valid struct
+  end
+
   def test_fails_if_a_nested_list_item_is_invalid
     struct = ListExample.new
     struct.required_list = [ SimpleStruct.new ]
