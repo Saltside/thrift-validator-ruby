@@ -11,7 +11,10 @@ module Thrift
         case type
         when Types::STRUCT
           next if source.kind_of?(Union) && source.get_set_field.to_s != name
-          validate source.send(name)
+
+          if source.send(name)
+            validate source.send(name)
+          end
         when Types::LIST, Types::SET
           if recurse? field.fetch(:element)
             Array(source.send(name)).each do |item|
