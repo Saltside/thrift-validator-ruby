@@ -13,6 +13,14 @@ struct ListExample {
   2: optional list<SimpleStruct> optional_list
 }
 
+struct StringListExample {
+  1: required list<string> required_list
+}
+
+struct StringSetExample {
+  1: required set<string> required_set
+}
+
 struct SetExample {
   1: required set<SimpleStruct> required_set
   2: optional set<SimpleStruct> optional_set

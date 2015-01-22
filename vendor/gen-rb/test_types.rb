@@ -63,6 +63,40 @@ class ListExample
   ::Thrift::Struct.generate_accessors self
 end
 
+class StringListExample
+  include ::Thrift::Struct, ::Thrift::Struct_Union
+  REQUIRED_LIST = 1
+
+  FIELDS = {
+    REQUIRED_LIST => {:type => ::Thrift::Types::LIST, :name => 'required_list', :element => {:type => ::Thrift::Types::STRING}}
+  }
+
+  def struct_fields; FIELDS; end
+
+  def validate
+    raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field required_list is unset!') unless @required_list
+  end
+
+  ::Thrift::Struct.generate_accessors self
+end
+
+class StringSetExample
+  include ::Thrift::Struct, ::Thrift::Struct_Union
+  REQUIRED_SET = 1
+
+  FIELDS = {
+    REQUIRED_SET => {:type => ::Thrift::Types::SET, :name => 'required_set', :element => {:type => ::Thrift::Types::STRING}}
+  }
+
+  def struct_fields; FIELDS; end
+
+  def validate
+    raise ::Thrift::ProtocolException.new(::Thrift::ProtocolException::UNKNOWN, 'Required field required_set is unset!') unless @required_set
+  end
+
+  ::Thrift::Struct.generate_accessors self
+end
+
 class SetExample
   include ::Thrift::Struct, ::Thrift::Struct_Union
   REQUIRED_SET = 1

@@ -12,25 +12,29 @@ module Thrift
         when Types::STRUCT
           validate source.send(name)
         when Types::LIST, Types::SET
-          Array(source.send(name)).each do |item|
-            validate item
+          if recurse? field.fetch(:element)
+            Array(source.send(name)).each do |item|
+              validate item
+            end
           end
         when Types::MAP
-          key_field = field.fetch(:key)
-          if key_field[:class] && key_field[:class] < ::Thrift::Struct
+          if recurse? field.fetch(:key)
             Hash(source.send(name)).each_key do |key_value|
               validate key_value
             end
           end
 
-          value_field = field.fetch(:value)
-          if value_field[:class] && value_field[:class] < ::Thrift::Struct
+          if recurse? field.fetch(:value)
             Hash(source.send(name)).each_value do |value_value|
               validate value_value
             end
           end
         end
       end
+    end
+
+    def recurse?(field)
+      field[:class] && field[:class] < ::Thrift::Struct
     end
   end
 end
