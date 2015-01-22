@@ -35,3 +35,8 @@ struct MapValueExample {
   1: required map<string, SimpleStruct> required_map
   2: optional map<string, SimpleStruct> optional_map
 }
+
+union UnionExample {
+  1: SimpleStruct primary
+  2: string alternate
+}

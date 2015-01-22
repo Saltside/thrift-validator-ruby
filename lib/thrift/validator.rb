@@ -10,6 +10,7 @@ module Thrift
         type, name = field.fetch(:type), field.fetch(:name)
         case type
         when Types::STRUCT
+          next if source.kind_of?(Union) && source.get_set_field.to_s != name
           validate source.send(name)
         when Types::LIST, Types::SET
           if recurse? field.fetch(:element)
