@@ -46,6 +46,12 @@ class AcceptanceTest < MiniTest::Unit::TestCase
     assert_valid struct
   end
 
+  def test_passes_with_primitives_list
+    struct = StringListExample.new
+    struct.required_list = [ 'foo' ]
+    assert_valid struct
+  end
+
   def test_fails_if_a_nested_set_item_is_invalid
     struct = SetExample.new
     struct.required_set = Set.new([ SimpleStruct.new ])
@@ -63,6 +69,12 @@ class AcceptanceTest < MiniTest::Unit::TestCase
     struct = SetExample.new
     struct.required_set = Set.new([ SimpleStruct.new({ required_string: 'foo' }) ])
     struct.optional_set = Set.new([ SimpleStruct.new({ required_string: 'bar' }) ])
+    assert_valid struct
+  end
+
+  def test_passes_with_primitives_set
+    struct = StringSetExample.new
+    struct.required_set = Set.new([ 'foo' ])
     assert_valid struct
   end
 
