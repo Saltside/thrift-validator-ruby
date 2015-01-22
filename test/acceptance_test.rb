@@ -118,6 +118,13 @@ class AcceptanceTest < MiniTest::Unit::TestCase
     assert_valid struct
   end
 
+  def test_fails_if_no_union_fields_set
+    union = UnionExample.new
+    assert_raises(StandardError) do
+      Thrift::Validator.new.validate(union)
+    end
+  end
+
   def test_fails_if_union_set_field_is_invalid
     union = UnionExample.new
     union.primary = SimpleStruct.new
