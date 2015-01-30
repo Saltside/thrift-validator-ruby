@@ -4,7 +4,12 @@ require 'thrift'
 module Thrift
   class Validator
     def validate(source)
-      source.validate
+      begin
+        source.validate
+      rescue Thrift::ProtocolException => ex
+        message = "#{source.class.name}: #{ex}"
+        raise Thrift::ProtocolException.new(ex.type, message)
+      end
 
       source.struct_fields.each_pair do |_, field|
         type, name = field.fetch(:type), field.fetch(:name)
