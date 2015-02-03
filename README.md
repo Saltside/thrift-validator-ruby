@@ -50,6 +50,26 @@ validator.validate nested # => Thrift::ProtocolException
 * `optional` or `required` `map` type using a `struct` for key or
   value pass validation
 
+## Exception handling
+
+Due to the recursive nature of `thrift-validator`, the validation
+errors raised by Thrift have become less than helpful. In order
+to provide more information, the `Thrift::ProtocolException`'s
+message is prefixed with the type where the error occurred. For
+example:
+
+```ruby
+# Without thrift-validator
+> struct.validate
+Thrift::ProtocolException: Required field required_string is unset!
+
+# With thrift-validator
+> Thrift::Validator.new.validate(struct)
+Thrift::ProtocolException: SimpleStruct: Required field required_string is unset!
+```
+
+This feature becomes especially useful with nested structures,
+where the validation may fail at any given depth.
 
 ## Installation
 
